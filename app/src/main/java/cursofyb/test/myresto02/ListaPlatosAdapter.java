@@ -26,7 +26,6 @@ public class ListaPlatosAdapter extends ArrayAdapter<Plato> {
         super(ctx,android.R.layout.simple_list_item_1,lista);
         layoutInflater = LayoutInflater.from(ctx);
     }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

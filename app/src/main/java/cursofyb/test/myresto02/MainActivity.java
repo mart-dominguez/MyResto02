@@ -2,6 +2,7 @@ package cursofyb.test.myresto02;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Double2;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
+import cursofyb.test.myresto02.dao.PlatoDao;
+import cursofyb.test.myresto02.dao.TipoPlatoDAO;
 import cursofyb.test.myresto02.modelo.Plato;
 import cursofyb.test.myresto02.modelo.TipoPlato;
 
@@ -21,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private Spinner cmbTipoPlato;
     private ArrayAdapter<TipoPlato> adapterTipoPlato;
     private Button btnGuardar;
-
+    private TipoPlatoDAO daoTipoPlato;
+    private EditText txtNombre;
+    private EditText txtDescripcion;
+    private EditText txtPrecio;
+    private PlatoDao platoDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+        platoDao = new PlatoDao(this);
+        daoTipoPlato = new TipoPlatoDAO(this);
         adapterTipoPlato = new ArrayAdapter<TipoPlato>(this,android.R.layout.simple_spinner_item,this.obtenerListaPlato());
         cmbTipoPlato = (Spinner) findViewById(R.id.cmbTipoPlato);
         cmbTipoPlato.setAdapter(adapterTipoPlato);
+        txtDescripcion = (EditText) findViewById(R.id.txtDescripcion);
+        txtNombre = (EditText) findViewById(R.id.txtNombrePlato);
+        txtPrecio = (EditText) findViewById(R.id.txtPrecio);
         this.btnGuardar = (Button) findViewById(R.id.btnGuardar);
         this.btnGuardar.setOnClickListener(clicGuardar);
     }
@@ -49,14 +61,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Plato platoNuevo = new Plato();
-            platoNuevo.setId(100);
-            platoNuevo.setNombre​("Milanesa");
-            platoNuevo.setPrecio​(88.0);
-            platoNuevo.setDescripcion​(" a la napollitana");
-
+            platoNuevo.setNombre​(txtNombre.getText().toString());
+            platoNuevo.setPrecio​(Double.parseDouble(txtPrecio.getText().toString()));
+            platoNuevo.setDescripcion​(txtDescripcion.getText().toString());
+            platoNuevo.setTipo(adapterTipoPlato.getItem(  cmbTipoPlato.getSelectedItemPosition()));
             Intent resultadoIntent = getIntent();
-
-            resultadoIntent.putExtra("PLATO_NUEVO",platoNuevo);
+            platoDao.nuevoPlato(platoNuevo);
+            resultadoIntent.putExtra("PLATO_NUEVO",1);
 
             setResult(RESULT_OK,resultadoIntent);
 
@@ -88,12 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private TipoPlato[] obtenerListaPlato(){
-        TipoPlato[] arreglo = new TipoPlato[5];
-        arreglo[0]=new TipoPlato("Entrada");
-        arreglo[1]=new TipoPlato("Principal");
-        arreglo[2]=new TipoPlato("Postre");
-        arreglo[3]=new TipoPlato("Minuta");
-        arreglo[4]=new TipoPlato("Bebida");
-        return arreglo;
-    }
+        return daoTipoPlato.listaTipoPlato();
+     }
 }

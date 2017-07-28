@@ -19,6 +19,11 @@ public class TipoPlato {
         this.nombre = nombre;
     }
 
+    public TipoPlato(String nombre,Integer id){
+        this.id = id;
+        this.nombre=nombre;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -37,9 +42,7 @@ public class TipoPlato {
 
     @Override
     public String toString() {
-        return "TipoPlato{" +
-                "nombre='" + nombre + '\'' +
-                '}';
+        return nombre;
     }
 
     @Override

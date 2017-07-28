@@ -1,6 +1,8 @@
 package cursofyb.test.myresto02;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +16,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cursofyb.test.myresto02.dao.MyRestoOpenHelper;
+import cursofyb.test.myresto02.dao.PlatoDao;
 import cursofyb.test.myresto02.modelo.Plato;
 
 public class ListPlatos extends AppCompatActivity {
@@ -25,6 +29,9 @@ public class ListPlatos extends AppCompatActivity {
     private List<Plato> listaPlatos;
     private final int CODIGO_NUEVO_PLATO = 999;
     private final int CODIGO_EDITAR_PLATO = 998;
+    private PlatoDao platoDao;
+    private Cursor cursorListaActual;
+    private ListaPlatosCursorAdapter adaptadorListaPlatosCrs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +53,7 @@ public class ListPlatos extends AppCompatActivity {
         this.lvPlatos = (ListView) findViewById(R.id.listaPlatos);
 
         this.listaPlatos = new ArrayList<>();
-        this.listaPlatos.add(new Plato("MIlanesa"));
+        /*this.listaPlatos.add(new Plato("MIlanesa"));
         this.listaPlatos.add(new Plato("Pollo"));
         this.listaPlatos.add(new Plato("Chorzo"));
         this.listaPlatos.add(new Plato("Pizza"));
@@ -59,10 +66,14 @@ public class ListPlatos extends AppCompatActivity {
         this.listaPlatos.add(new Plato("Costilla 2"));
         this.listaPlatos.add(new Plato("Costilla 3"));
         this.listaPlatos.add(new Plato("Costilla 4"));
-        this.listaPlatos.add(new Plato("Costilla 5"));
+        this.listaPlatos.add(new Plato("Costilla 5"));*/
 
         this.adaptadorLista = new ListaPlatosAdapter(this,listaPlatos);
-        this.lvPlatos.setAdapter(adaptadorLista);
+
+        this.platoDao =new PlatoDao(this);
+        cursorListaActual = this.platoDao.getListaPlatos();
+        adaptadorListaPlatosCrs = new ListaPlatosCursorAdapter(this,cursorListaActual);
+        this.lvPlatos.setAdapter(adaptadorListaPlatosCrs);
         this.btnVerAbm.setOnClickListener(clickBoton);
         Intent intServ = new Intent(this,MyPedidoIntentService.class);
         intServ.putExtra("VALOR1","ASDASDADSADAS");
@@ -85,11 +96,14 @@ public class ListPlatos extends AppCompatActivity {
         if(resultCode==RESULT_OK){
             Log.d(LISTPLATOS,"RESULT OK");
             if(requestCode==CODIGO_NUEVO_PLATO){
-                Plato nuevoPlato = (Plato) data.getExtras().getSerializable("PLATO_NUEVO");
+                //Plato nuevoPlato = (Plato) data.getExtras().getSerializable("PLATO_NUEVO");
+                Log.d(LISTPLATOS,"Extras: ---> "+data.getExtras().get("PLATO_NUEVO"));
+                this.cursorListaActual = this.platoDao.getListaPlatos();
+                Cursor viejo = this.adaptadorListaPlatosCrs.swapCursor(this.cursorListaActual);
+                viejo.close();
+                //listaPlatos.add(nuevoPlato);
                 Log.d(LISTPLATOS,"RESULT OK");
-                listaPlatos.add(nuevoPlato);
-                Log.d(LISTPLATOS,"RESULT OK");
-                adaptadorLista.notifyDataSetChanged();
+                //adaptadorLista.notifyDataSetChanged();
             }
         }
     }

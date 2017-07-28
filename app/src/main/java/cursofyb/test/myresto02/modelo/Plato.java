@@ -12,11 +12,11 @@ public class Plato implements Serializable{
     private Integer id;
     private String nombre​;
     private String descripcion​;
- //   private TipoPlato tipo;
+    private TipoPlato tipo;
     private Double precio​;
 
     public Plato() {
-        this.id=IDS++;
+        //this.id=IDS++;
    }
 
     public Plato(String nombre​, Double precio​) {
@@ -31,6 +31,13 @@ public class Plato implements Serializable{
         Random r = new Random();
         this.precio​ = 100+(10*r.nextDouble());
        // this.ti
+    }
+
+    public Plato(Integer id, String nombre​, Double precio​,TipoPlato tp,String des) {
+        this(nombre​,precio​);
+        this.id=id;
+        this.descripcion​=descripcion​;
+        this.tipo = tp;
     }
 
     public Integer getId() {
@@ -86,5 +93,13 @@ public class Plato implements Serializable{
     @Override
     public int hashCode() {
         return getId().hashCode();
+    }
+
+    public TipoPlato getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoPlato tipo) {
+        this.tipo = tipo;
     }
 }
