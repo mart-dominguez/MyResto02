@@ -8,7 +8,7 @@
     tools:context="cursofyb.test.myresto02.AltaUsuario">
 
     <TextView
-        android:id="@+id/usrNombreLbl"
+        android:id="@+id/usrTituloLbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="GESTION DEL USUARIO"
@@ -17,7 +17,7 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
     <TextView
-        android:id="@+id/usrNombreTxt"
+        android:id="@+id/usrNombreLbl"
         android:text="NOMBRE"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

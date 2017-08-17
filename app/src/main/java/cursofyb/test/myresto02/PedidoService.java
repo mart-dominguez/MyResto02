@@ -12,13 +12,15 @@ import java.net.URLEncoder;
 
 import cursofyb.test.myresto02.dao.PedidoDao;
 import cursofyb.test.myresto02.dao.PedidoDaoHTTP;
+import cursofyb.test.myresto02.dao.PedidoDaoSQLite;
 import cursofyb.test.myresto02.modelo.Pedido;
 
 public class PedidoService extends Service {
     // Binder given to clients
     private final IBinder mBinder = new PedidoBinder ();
     // Conexion
-    private PedidoDao pedidoDao = new PedidoDaoHTTP();
+    //private PedidoDao pedidoDao = new PedidoDaoHTTP();
+    private PedidoDao pedidoDao = new PedidoDaoSQLite(PedidoService.this);
 
     /**
      * Class used for the client Binder.  Because we know this service always

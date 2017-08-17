@@ -42,11 +42,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        /*
+         cuando hace click largo se ejecute un listener que
+         me da la LAT LNG del punto donde hizo click
+         y retorna a la actividad llamada.
+         ESTO la idea es usarlo para 2 llamadas
+          -- cuando el us
+         */
         mMap.setOnMapLongClickListener(longClickListener);
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -56,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
 
     GoogleMap.OnMapLongClickListener longClickListener = new GoogleMap.OnMapLongClickListener() {
         @Override
@@ -67,7 +77,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             finish();
         }
     };
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

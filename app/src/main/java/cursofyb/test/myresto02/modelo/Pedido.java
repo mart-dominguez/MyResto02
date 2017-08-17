@@ -1,5 +1,7 @@
 package cursofyb.test.myresto02.modelo;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by mdominguez on 03/08/17.
  */
@@ -11,6 +13,8 @@ public class Pedido {
     private Integer cantidad;
     private boolean aceptado;
     private boolean listo;
+    private Usuario usuario;
+    private LatLng ubicacionEntrega;
 
     public Pedido() {
     }
@@ -64,6 +68,23 @@ public class Pedido {
     public void setListo(boolean listo) {
         this.listo = listo;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public LatLng getUbicacionEntrega() {
+        return ubicacionEntrega;
+    }
+
+    public void setUbicacionEntrega(LatLng ubicacionEntrega) {
+        this.ubicacionEntrega = ubicacionEntrega;
+    }
+
 
     @Override
     public String toString() {

@@ -9,12 +9,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import cursofyb.test.myresto02.dao.UsuarioDao;
+import cursofyb.test.myresto02.dao.UsuarioDaoSqlite;
+import cursofyb.test.myresto02.modelo.Usuario;
+
 public class AltaUsuario extends AppCompatActivity {
     private final int CODIGO_UBICACION_USUARIO = 801;
     private final String tagLog = "RESTO::ALTA";
 
+    private UsuarioDao usrDao = null;
+
     private Button bntUbicacion;
+    private Button btnAltaUsr;
     private EditText ubicacion;
+    private EditText nombre;
+    private EditText correo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +40,31 @@ public class AltaUsuario extends AppCompatActivity {
                 startActivityForResult(i,CODIGO_UBICACION_USUARIO);
             }
         });
+
+        btnAltaUsr = (Button) findViewById(R.id.btnGuardarUsuario);
+        btnAltaUsr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Usuario usuario = new Usuario();
+                usuario.setCorreo(correo.getText().toString());
+                usuario.setNombre(nombre.getText().toString());
+                String ubicUparsed = ubicacion.getText().toString();
+                String[] aux = ubicUparsed.split(";");
+                usuario.setUbicacionDefecto(new LatLng(Double.parseDouble(aux[0]),Double.parseDouble(aux[1])));
+                usrDao.guardar(usuario);
+            }
+        });
+        usrDao = new UsuarioDaoSqlite(AltaUsuario.this);
+
+        correo = (EditText) findViewById(R.id.usrMailTxt);
+        nombre = (EditText) findViewById(R.id.usrNombreTxt);
+        Usuario usrDefecto = usrDao.leer();
+        correo.setText(usrDefecto.getCorreo());
+        nombre.setText(usrDefecto.getNombre());
+        ubicacion.setText(usrDefecto.getUbicacionDefecto().toString());
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -43,6 +79,7 @@ public class AltaUsuario extends AppCompatActivity {
             }
         }
     }
+
 
 
 }
