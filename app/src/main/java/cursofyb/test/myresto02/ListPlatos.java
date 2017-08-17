@@ -2,7 +2,6 @@ package cursofyb.test.myresto02;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,8 +15,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cursofyb.test.myresto02.dao.MyRestoOpenHelper;
 import cursofyb.test.myresto02.dao.PlatoDao;
+import cursofyb.test.myresto02.dao.PlatoDaoSqlite;
 import cursofyb.test.myresto02.modelo.Plato;
 
 public class ListPlatos extends AppCompatActivity {
@@ -70,7 +69,7 @@ public class ListPlatos extends AppCompatActivity {
 
         this.adaptadorLista = new ListaPlatosAdapter(this,listaPlatos);
 
-        this.platoDao =new PlatoDao(this);
+        this.platoDao =new PlatoDaoSqlite(this);
         cursorListaActual = this.platoDao.getListaPlatos();
         adaptadorListaPlatosCrs = new ListaPlatosCursorAdapter(this,cursorListaActual);
         this.lvPlatos.setAdapter(adaptadorListaPlatosCrs);

@@ -6,4 +6,5 @@
     <string name="title_activity_list_platos">ListPlatos</string>
     <string name="titBtnPrincipalListaPlato">Ver ABM</string>
     <string name="title_activity_pagar">PagarActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -2,7 +2,6 @@ package cursofyb.test.myresto02;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.Double2;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +15,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import cursofyb.test.myresto02.dao.PlatoDao;
+import cursofyb.test.myresto02.dao.PlatoDaoSqlite;
 import cursofyb.test.myresto02.dao.TipoPlatoDAO;
+import cursofyb.test.myresto02.dao.TipoPlatoDAOJSON;
+import cursofyb.test.myresto02.dao.TipoPlatoDAOSqlite;
 import cursofyb.test.myresto02.modelo.Plato;
 import cursofyb.test.myresto02.modelo.TipoPlato;
 
@@ -45,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        platoDao = new PlatoDao(this);
-        daoTipoPlato = new TipoPlatoDAO(this);
+        platoDao = new PlatoDaoSqlite(this);
+        daoTipoPlato = new TipoPlatoDAOJSON(this);
         adapterTipoPlato = new ArrayAdapter<TipoPlato>(this,android.R.layout.simple_spinner_item,this.obtenerListaPlato());
         cmbTipoPlato = (Spinner) findViewById(R.id.cmbTipoPlato);
         cmbTipoPlato.setAdapter(adapterTipoPlato);
